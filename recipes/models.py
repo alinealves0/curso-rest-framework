@@ -1,16 +1,16 @@
 import os
 from collections import defaultdict
 
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.db import models
-from django.db.models import F, Value
-from django.db.models.functions import Concat
-from django.forms import ValidationError
-from django.urls import reverse
-from django.utils.text import slugify
-from django.utils.translation import gettext_lazy as _
-from PIL import Image
+from django.conf import settings #type:ignore
+from django.contrib.auth.models import User #type:ignore
+from django.db import models #type:ignore
+from django.db.models import F, Value #type:ignore
+from django.db.models.functions import Concat #type:ignore
+from django.forms import ValidationError #type:ignore
+from django.urls import reverse #type:ignore
+from django.utils.text import slugify #type:ignore
+from django.utils.translation import gettext_lazy as _ #type:ignore
+from PIL import Image #type:ignore
 from tag.models import Tag
 
 
@@ -31,7 +31,11 @@ class RecipeManager(models.Manager):
                 F('author__last_name'), Value(' ('),
                 F('author__username'), Value(')'),
             )
-        ).order_by('-id')
+
+        ) \
+            .order_by('-id') \
+            .select_related('category', 'author') \
+            .prefetch_related('tags')
 
 
 class Recipe(models.Model):
