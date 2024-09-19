@@ -30,6 +30,8 @@ def recipe_api_detail(request, pk):
         context={'request': request},
     )
     return Response(serializer.data)
+
+
 @api_view()
 def tag_api_detail(request, pk):
     tag = get_object_or_404(
