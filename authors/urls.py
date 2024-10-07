@@ -1,8 +1,13 @@
-from django.urls import path
+from django.urls import path  #type:ignore
+from rest_framework.routers import SimpleRouter  #type:ignore
 
 from . import views
 
 app_name = 'authors'
+
+author_api_router = SimpleRouter()
+author_api_router.register('api', views.AuthorViewSet, basename='author-api')
+
 
 urlpatterns = [
     path('register/', views.register_view, name='register'),
@@ -32,3 +37,5 @@ urlpatterns = [
         name='profile'
     ),
 ]
+
+urlpatterns += author_api_router.urls
